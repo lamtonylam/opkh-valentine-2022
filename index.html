@@ -349,13 +349,13 @@ $(document).ready(function () {
       for (i = 0; i < megaName.length; i++) {
         seed += megaName[i].charCodeAt(0);
       }
-      seed = seed / (today.getHours() + today.getDay());
+      seed = seed / (today.getMonth() + today.getDay());
       seed = Math.round(seed);
       seed = seed.toString().slice(-2);
       if (seed == "00") {
         seed = "100";
       }
-
+      seed = Math.round(80 + (parseInt(seed) / 100) * 20);
       love = parseInt(seed);
       $("#initial-prompt").animate(
       {
