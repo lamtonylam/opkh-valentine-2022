@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en" >
 
@@ -13,7 +15,7 @@
 <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111" />
 
 
-  <title>CodePen - Love Calculator</title>
+  <title>Rakkaustesteri - Hellun OPKH</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 
@@ -29,6 +31,11 @@ body {
 
 h1 {
     font-size: 24px;
+    margin: 0;
+}
+
+h2 {
+    font-size: 12px;
     margin: 0;
 }
 
@@ -174,8 +181,8 @@ button:active {
     anything else so long as we 
     use the same name when
     specifying the keyframes. */
-    -webkit-animation: material-spinner 4s infinite;
-            animation: material-spinner 4s infinite;
+    -webkit-animation: material-spinner 8s infinite;
+            animation: material-spinner 8s infinite;
 }
 
 @-webkit-keyframes material-spinner {
@@ -269,23 +276,24 @@ button:active {
   <div id="wrapper">
     
 <div class="container card" id="initial-prompt">
-    <h1>Calculate Your Love</h1>
-    <p id="name1-label">Your name.</p>
+    <h1>Löydä rakkautesi 💞😘</h1>
+    <h2> Made With ❤ By Hellun OPKH </h2>
+    <p id="name1-label">Sinun nimesi</p>
 <input type="text" id="name1">
-<p id="name2-label">Your partner's name.</p>
+<p id="name2-label">Hellucrush</p>
 <input type="text" id="name2">
     <p id="warning">You must fill in both names.</p>
-    <p class="align-right"><button id="calculate">Calculate &nbsp;&nbsp;<i class="fa fa-heart" aria-hidden="true"></i></button></p>
+    <p class="align-right"><button id="calculate">Laske yhteensopivuus &nbsp;&nbsp;<i class="fa fa-heart" aria-hidden="true"></i></button></p>
 </div>
     <div class="container" id="calculating">
         <div id="loading" class="material-spinner"></div>
         <p id="div-msg">&nbsp;</p>
     </div>
     <div class="container card" id="results">
-        <h1>Your results!</h1>
+        <h1>Tuloksesi!</h1>
         <p id="love-results">&nbsp;</p>
-        <p>Don't like what you see? The future isn't set in stone, it is written in the stars! Just like the stars that drift through the night sky, you too can change the path of your future. If you believe hard enough, anything is possible. Check back later to see if you've improved your odds.</p>
-        <p class="align-right"><button id="try-again">Try Again</button></p>
+        <p>Eikö napannut laskurin mukaan? Älä huoli, tulevaisuus ei ole kiveen hakattua, se on kirjoitettu tähtiin. Aivan kuten tähdet, jotka ajautuvat omiin polkuihinsa yöllisellä taivaalla, sinäkin voit muuttaa tulevaisuuttasi. Jos uskot tarpeeksi, kaikki on mahdollista. Tarkista myöhemmin, oletko parantanut todennäköisyyksiäsi. </p>
+        <p class="align-right"><button id="try-again">Kokeile uudestaan</button></p>
     </div>
 </div>
     <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-1b93190375e9ccc259df3a57c1abc0e64599724ae30d7ea4c6877eb615f89387.js"></script>
@@ -293,37 +301,34 @@ button:active {
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
       <script id="rendered-js" >
 var divination = [
-"Calculating star charts",
-"Reading tea leafs",
-"Sacrificing a goat",
-"Consulting Mayan calenders",
-"Checking blood types",
-"Tracing palm lines"];
+"Lasketaan astrologisia yhtälöitä",
+"Konsultoimassa lemmentohtori Tony Lamia",
+"Vakoilemassa Hellun valvontakameroita"];
 
 
 function rndMsg() {
   var rndNum = Math.floor(Math.random() * divination.length);
-  if (divination[rndNum].slice(5) == $("#div-msg").text().trim().slice(5)) {
+  if (divination[rndNum].slice(6) == $("#div-msg").text().trim().slice(6)) {
     rndMsg();
   } else {
     var dM = divination[rndNum];
     $("#div-msg").text(dM);
     setTimeout(function () {
       $("#div-msg").text(dM + ".");
-    }, 200);
-    setTimeout(function () {
-      $("#div-msg").text(dM + "..");
     }, 400);
     setTimeout(function () {
+      $("#div-msg").text(dM + "..");
+    }, 800);
+    setTimeout(function () {
       $("#div-msg").text(dM + "...");
-    }, 600);
+    }, 1200);
   }
 }
 
 $(document).ready(function () {
   setInterval(function () {
     rndMsg();
-  }, 1200);
+  }, 2000);
   //$("#name1").focus();
   $("#name1-label").click(function () {
     $("#name1").focus();
@@ -371,18 +376,17 @@ $(document).ready(function () {
             setTimeout(function () {
               $("#love-results").html(
               name1 +
-              " and " +
+              " ja " +
               name2 +
-              " have a <strong>" +
-              love +
-              "%</strong> compatibility rating as of now.");
+              "" +
+              " yhteensopivuus on tällä hetkellä: <strong>" + love + "%<strong>");
 
               $("#calculating").fadeOut(300, function () {
                 $("#results").fadeIn(300, function () {
                   $("#try-again").focus();
                 });
               });
-            }, 3000);
+            }, 6000);
           });
         });
       });
