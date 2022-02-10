@@ -1,23 +1,424 @@
-<div id="wrapper">
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+
+  <meta charset="UTF-8">
+  
+<link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+<meta name="apple-mobile-web-app-title" content="CodePen">
+
+<link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+
+<link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111" />
+
+
+  <title>CodePen - Love Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+  
+<style>
+@import url('https://fonts.googleapis.com/css?family=Arimo');
+
+body {
+    background: #F44336;
+    min-height: 100vh;
+}
+
+h1 {
+    font-size: 24px;
+    margin: 0;
+}
+
+#wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    flex-direction: column;
+    padding: 1em;
+    box-sizing: border-box;
+}
+
+.card {
+    background: white;
+    margin: 1em;
+    padding: 1em;
+    padding-bottom: 0;
+    box-sizing: border-box;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0px 4px 8px 0px rgba(33,33,33,0.15), 0px 6px 10px 0px rgba(33,33,33,0.15);
+    font-family: "Arimo", sans-serif;
+    max-width: 400px;
+    width: 100%;
+}
+
+input[type=text] {
+    padding: 0;
+    line-height: 2;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 18px;
+    outline: none;
+    border: 0px;
+    margin-bottom: 1px;
+    border-bottom: 1px #b0b0b0 solid;
+}
+
+input[type=text]:focus {
+    border-bottom: 2px #E91E63 solid;
+    margin-bottom: 0px;
+    transition: all 500ms ease;
+}
+
+button {
+    background: #E91E63;
+    color: white;
+    outline: none;  
+    font-family: "Arimo", sans-serif;
+    border: 0;
+    border-radius: 4px;
+    line-height: 2.5;
+    padding: 0 1em;
+    margin: 0;
+    text-transform: uppercase;
+    box-shadow: 0px 4px 8px 0px rgba(33,33,33,0.15), 0px 6px 10px 0px rgba(33,33,33,0.15);
+    transition: all ease 500ms;
+    position: relative;
+}
+
+button:hover {
+    background: #FF3E83;
+    box-shadow: 0px 6px 10px 0px rgba(33,33,33,0.15), 0px 6px 10px 0px rgba(33,33,33,0.15);
+    top: -1px;
+}
+
+button:active {
+    top: 1px;
+    background: #C90043;
+}
+
+.align-right {
+    text-align: right;
+}
+
+#warning {
+    color: red;
+    opacity: 0;
+}
+
+#results {
+    display: none;
+}
+
+#calculating {
+    color: white;
+    font-family: "Arimo", sans-serif;
+    font-weight: bold;
+}
+
+#loading {
+    margin: 0 auto;
+}
+
+.material-spinner {
+    /* The height and width can be
+    whatever you want, so long as
+    you adjust the border radius
+    to compensate. I added a 
+    "max-height" because for some
+    reason the spinner was
+    "squishing" when I resized the
+    screen vertically. "max-height"
+    fixed this. */
+    height: 50px;
+    min-height: 50px;
+    width: 50px;
+    /* "border-radius" defines how
+    much "curve" there is on the
+    edge of a square element. If
+    you give it enough curve, it
+    makes the element appear to be
+    circular. */
+    border-radius: 100px;
+    /* So there's a five pixel
+    transparent solid border
+    around a 50px square box, which
+    has edges curved so much that
+    it looks circular... */
+    border: 5px transparent solid;
+    /* ... with one side, the top
+    border, given a color. This
+    creates the quarter-circle 
+    curve. */
+    border-top: 5px #3F51B5 solid;
+    /* "animation" specifies an
+    animation to use on the element,
+    including how long the animation
+    should take, how many times it 
+    should play, and even whether 
+    or not it should ease into the
+    different steps of the animation.
+    By default the animation eases,
+    which is what we want for our
+    Google-esque spinner, so we 
+    don't need to set that. 
+    
+    The "material-spinner" part is
+    the name of the animation that 
+    we want to use. We could've
+    called it "funky-bunny" or
+    anything else so long as we 
+    use the same name when
+    specifying the keyframes. */
+    -webkit-animation: material-spinner 4s infinite;
+            animation: material-spinner 4s infinite;
+}
+
+@-webkit-keyframes material-spinner {
+    /* "material-spinner" is the name
+    of the animation. Each percentage
+    represents an individual step
+    in the animation. The transform
+    rotation needs to increase from
+    0 throughout. If you did 
+    "rotate(0deg)" then 
+    "rotate(180deg)" and then 
+    "rotate(0deg)" back again,
+    instead of continously spinning
+    right, it would spin right,
+    then left, then right.*/ 
+    0% {
+        transform: rotate(0deg);
+        border-top: 5px #CBFF74 solid;
+    }
+    25% {
+        transform: rotate(360deg);
+        border-top: 5px #E8B85F solid;
+    }
+    50% {
+        transform: rotate(720deg);
+        border-top: 5px #8D5EE8 solid;
+    }
+    75% {
+        transform: rotate(1080deg);
+        border-top: 5px #69EBFF solid;
+    }
+    100% {
+        transform: rotate(1440deg);
+        border-top: 5px #CBFF74 solid;
+    }
+}
+
+@keyframes material-spinner {
+    /* "material-spinner" is the name
+    of the animation. Each percentage
+    represents an individual step
+    in the animation. The transform
+    rotation needs to increase from
+    0 throughout. If you did 
+    "rotate(0deg)" then 
+    "rotate(180deg)" and then 
+    "rotate(0deg)" back again,
+    instead of continously spinning
+    right, it would spin right,
+    then left, then right.*/ 
+    0% {
+        transform: rotate(0deg);
+        border-top: 5px #CBFF74 solid;
+    }
+    25% {
+        transform: rotate(360deg);
+        border-top: 5px #E8B85F solid;
+    }
+    50% {
+        transform: rotate(720deg);
+        border-top: 5px #8D5EE8 solid;
+    }
+    75% {
+        transform: rotate(1080deg);
+        border-top: 5px #69EBFF solid;
+    }
+    100% {
+        transform: rotate(1440deg);
+        border-top: 5px #CBFF74 solid;
+    }
+}
+
+#calculating {
+    display: none;
+}
+</style>
+
+  
+  
+  
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+
+
+</head>
+
+<body translate="no" >
+  <div id="wrapper">
     
 <div class="container card" id="initial-prompt">
-    <h1>Löydä rakkautesi 💞😘</h1>
-    <h2> Made With ❤ By Hellun OPKH </h2>
-    <p id="name1-label">Sinun nimesi</p>
+    <h1>Calculate Your Love</h1>
+    <p id="name1-label">Your name.</p>
 <input type="text" id="name1">
-<p id="name2-label">Hellucrush</p>
+<p id="name2-label">Your partner's name.</p>
 <input type="text" id="name2">
     <p id="warning">You must fill in both names.</p>
-    <p class="align-right"><button id="calculate">Laske yhteensopivuus &nbsp;&nbsp;<i class="fa fa-heart" aria-hidden="true"></i></button></p>
+    <p class="align-right"><button id="calculate">Calculate &nbsp;&nbsp;<i class="fa fa-heart" aria-hidden="true"></i></button></p>
 </div>
     <div class="container" id="calculating">
         <div id="loading" class="material-spinner"></div>
         <p id="div-msg">&nbsp;</p>
     </div>
     <div class="container card" id="results">
-        <h1>Tuloksesi!</h1>
+        <h1>Your results!</h1>
         <p id="love-results">&nbsp;</p>
-        <p>Eikö napannut laskurin mukaan? Älä huoli, tulevaisuus ei ole kiveen hakattua, se on kirjoitettu tähtiin. Aivan kuten tähdet, jotka ajautuvat omiin polkuihinsa yöllisellä taivaalla, sinäkin voit muuttaa tulevaisuuttasi. Jos uskot tarpeeksi, kaikki on mahdollista. Tarkista myöhemmin, oletko parantanut todennäköisyyksiäsi. </p>
-        <p class="align-right"><button id="try-again">Kokeile uudestaan</button></p>
+        <p>Don't like what you see? The future isn't set in stone, it is written in the stars! Just like the stars that drift through the night sky, you too can change the path of your future. If you believe hard enough, anything is possible. Check back later to see if you've improved your odds.</p>
+        <p class="align-right"><button id="try-again">Try Again</button></p>
     </div>
 </div>
+    <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-1b93190375e9ccc259df3a57c1abc0e64599724ae30d7ea4c6877eb615f89387.js"></script>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+      <script id="rendered-js" >
+var divination = [
+"Calculating star charts",
+"Reading tea leafs",
+"Sacrificing a goat",
+"Consulting Mayan calenders",
+"Checking blood types",
+"Tracing palm lines"];
+
+
+function rndMsg() {
+  var rndNum = Math.floor(Math.random() * divination.length);
+  if (divination[rndNum].slice(5) == $("#div-msg").text().trim().slice(5)) {
+    rndMsg();
+  } else {
+    var dM = divination[rndNum];
+    $("#div-msg").text(dM);
+    setTimeout(function () {
+      $("#div-msg").text(dM + ".");
+    }, 200);
+    setTimeout(function () {
+      $("#div-msg").text(dM + "..");
+    }, 400);
+    setTimeout(function () {
+      $("#div-msg").text(dM + "...");
+    }, 600);
+  }
+}
+
+$(document).ready(function () {
+  setInterval(function () {
+    rndMsg();
+  }, 1200);
+  //$("#name1").focus();
+  $("#name1-label").click(function () {
+    $("#name1").focus();
+  });
+  $("#name2-label").click(function () {
+    $("#name2").focus();
+  });
+  $("input").keypress(function (e) {
+    if (e.which == 13) {
+      $("#calculate").click();
+    }
+  });
+
+  $("#calculate").click(function () {
+    var name1 = $("#name1").val();
+    var name2 = $("#name2").val();
+
+    if (name1.length > 0 && name2.length > 0) {
+      var seed = name1.length + name2.length;
+      var megaName = name1 + " " + name2;
+      var today = new Date();
+      var love = 0;
+      megaName = megaName.split("");
+      for (i = 0; i < megaName.length; i++) {
+        seed += megaName[i].charCodeAt(0);
+      }
+      seed = seed / (today.getMonth() + today.getDay());
+      seed = Math.round(seed);
+      seed = seed.toString().slice(-2);
+      if (seed == "00") {
+        seed = "100";
+      }
+
+      love = parseInt(seed);
+      $("#initial-prompt").animate(
+      {
+        height: 0,
+        width: 0,
+        opacity: 0 },
+
+      300,
+      function () {
+        $("#initial-prompt").hide(function () {
+          $("#calculating").fadeIn(300, function () {
+            setTimeout(function () {
+              $("#love-results").html(
+              name1 +
+              " and " +
+              name2 +
+              " have a <strong>" +
+              love +
+              "%</strong> compatibility rating as of now.");
+
+              $("#calculating").fadeOut(300, function () {
+                $("#results").fadeIn(300, function () {
+                  $("#try-again").focus();
+                });
+              });
+            }, 3000);
+          });
+        });
+      });
+
+    } else {
+      $("#warning").animate(
+      {
+        opacity: 1 },
+
+      300);
+
+    }
+  });
+
+  $("#try-again").click(function () {
+    $("#initial-prompt").css({
+      height: "auto",
+      width: "100%",
+      opacity: 1 });
+
+    $("#name1").val("");
+    $("#name2").val("");
+    $("#results").fadeOut(300, function () {
+      $("#initial-prompt").fadeIn(300, function () {
+        $("#name1").focus();
+      });
+    });
+  });
+});
+//# sourceURL=pen.js
+    </script>
+
+  
+
+  <script src="https://cpwebassets.codepen.io/assets/editor/iframe/iframeRefreshCSS-4793b73c6332f7f14a9b6bba5d5e62748e9d1bd0b5c52d7af6376f3d1c625d7e.js"></script>
+</body>
+
+</html>
+ 
