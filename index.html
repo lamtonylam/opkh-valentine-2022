@@ -355,7 +355,7 @@ $(document).ready(function () {
       for (i = 0; i < megaName.length; i++) {
         seed += megaName[i].charCodeAt(0);
       }
-      seed = seed / (today.getMonth() + today.getDay());
+      seed = seed / (today.getHours() + today.getDay());
       seed = Math.round(seed);
       seed = seed.toString().slice(-2);
       if (seed == "00") {
